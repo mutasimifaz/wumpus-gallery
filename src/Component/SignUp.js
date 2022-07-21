@@ -1,0 +1,388 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import SignLottie from "./SignLottie";
+import auth from "../firebase.init";
+import { toast } from "react-toastify";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
+  useSignInWithGoogle,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import UploadImage from "../Hooks/UploadImage";
+import useToken from "./../Hooks/useToken";
+const customId = "custom-id-yes";
+
+const SignUp = () => {
+  const [image, setImage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [signInWithGoogle, googleUser, googleLoading, googleError] =
+    useSignInWithGoogle(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [token] = useToken(user || googleUser);
+
+  const [updateProfile, updating, profileError] = useUpdateProfile(auth);
+  const { uploadImage } = UploadImage();
+
+  const [sendEmailVerification] = useSendEmailVerification(auth);
+
+  const onSubmit = async (data, e) => {
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName: data.name, photoURL: image });
+    await sendEmailVerification();
+    await e.preventDefault();
+  };
+  if (token) {
+    toast.success("Sign up success", { toastId: customId });
+  }
+  let SignUpError;
+  if (error || googleError || profileError) {
+    SignUpError = (
+      <div className="flex justify-center items-center">
+        <div
+          className="max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700"
+          role="alert"
+        >
+          <div className="flex p-4">
+            <div className="flex-shrink-0">
+              <svg
+                className="h-4 w-4 text-red-500 mt-0.5"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-gray-700 dark:text-gray-400">
+                {googleError?.message.slice(17, -2) ||
+                  error.message.slice(17, -2)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="dark:bg-gray-800 h-screen
+"
+    >
+      {/* <button onClick={notify}>Make me a toast</button> */}
+      <div className="flex max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl h-screen">
+        <div className="hidden bg-cover lg:block lg:w-1/2">
+          <div className="flex justify-center items-center">
+            {updating || loading || googleLoading ? (
+              <div>
+                <lottie-player
+                  src="https://distok.top/stickers/755240383084232756/755244316976218142.json"
+                  background="transparent"
+                  speed="1"
+                  style={{ width: "400px", height: "400px" }}
+                  loop
+                  autoplay
+                ></lottie-player>
+                {/* <p>Please wait. wumpus on his way to sign you Up.</p> */}
+              </div>
+            ) : (
+              <SignLottie />
+            )}
+          </div>
+        </div>
+
+        <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
+          <h2 className="text-2xl font-semibold text-center text-gray-700 dark:text-white">
+            Wumpus Gallery
+          </h2>
+
+          <p className="text-xl text-center text-gray-600 dark:text-gray-200">
+            Welcome new user!
+          </p>
+
+          {googleLoading ? (
+            <button className="btn no-animation rounded-lg btn-square loading w-full"></button>
+          ) : (
+            <button
+              // {googleUser?disable=true:disable=false}
+              onClick={() => signInWithGoogle()}
+              style={{ width: "100%" }}
+              className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-200 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <div className="px-4 py-2">
+                <svg className="w-6 h-6" viewBox="0 0 40 40">
+                  <path
+                    d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                    fill="#FFC107"
+                  />
+                  <path
+                    d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+                    fill="#FF3D00"
+                  />
+                  <path
+                    d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+                    fill="#4CAF50"
+                  />
+                  <path
+                    d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                    fill="#1976D2"
+                  />
+                </svg>
+              </div>
+
+              <span className="w-5/6 px-4 py-3 font-bold text-center">
+                Sign Up with Google
+              </span>
+            </button>
+          )}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex items-center justify-between mt-4">
+              <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+
+              <p className="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline">
+                or sign Up with email
+              </p>
+
+              <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
+            </div>
+
+            <div className="mt-4">
+              <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">
+                Name*
+              </label>
+              <input
+                {...register("name", {
+                  pattern: {
+                    value: /^[a-zA-Z.0-9_ ]*$/,
+                    message: "Provide a valid name",
+                  },
+                  required: {
+                    value: true,
+                    message: "Name is required",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Name should be at least 5 characters",
+                  },
+                })}
+                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+                type="text"
+              />
+              <div>
+                {errors.name?.type === "required" && (
+                  <span className="text-sm text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+                {errors.name?.type === "pattern" && (
+                  <span className="text-sm text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+                {errors.name?.type === "minLength" && (
+                  <span className="text-sm text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">
+                Email Address*
+              </label>
+              <input
+                {...register("email", {
+                  pattern: {
+                    value: /[a-z0-9]+@[-a-z]+\.[a-z]{2,3}/,
+                    message: "Provide a valid email address",
+                  },
+                  required: {
+                    value: true,
+                    message: "Email is required",
+                  },
+                })}
+                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+                type="email"
+              />
+              <div>
+                {errors.email?.type === "required" && (
+                  <span className="text-sm text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
+                {errors.email?.type === "pattern" && (
+                  <span className="text-sm text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            {/* <div className="mt-4">
+              <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">
+                User url*
+              </label>
+              <input
+                {...register("url", {
+                  pattern: {
+                    value: /(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+                    message: "User url must be valid",
+                  },
+                  required: {
+                    value: true,
+                    message: "User url is required",
+                  },
+                  minLength: {
+                    value: 7,
+                    message: "User url should be at least 7 characters",
+                  },
+                })}
+                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+                type="text"
+              />
+              <div>
+                {errors.url?.type === "required" && (
+                  <span className="text-sm text-red-500">
+                    {errors.url.message}
+                  </span>
+                )}
+                {errors.url?.type === "pattern" && (
+                  <span className="text-sm text-red-500">
+                    {errors.url.message}
+                  </span>
+                )}
+                {errors.url?.type === "minLength" && (
+                  <span className="text-sm text-red-500">
+                    {errors.url.message}
+                  </span>
+                )}
+              </div>
+            </div> */}
+
+            <div className="mt-4">
+              <div className="flex justify-between">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
+                  htmlFor="loggingPassword"
+                >
+                  Password*
+                </label>
+              </div>
+
+              <input
+                id="loggingPassword"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is required",
+                  },
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+                type="password"
+              />
+              <div>
+                {errors.password?.type === "required" && (
+                  <span className="text-sm text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <span className="text-sm text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <label
+              className="block mb-2 mt-2 text-sm font-medium text-gray-600 dark:text-gray-200"
+              htmlFor="Photo"
+            >
+              Photo
+            </label>
+            <div className="flex justify-center items-center w-full mt-4">
+              <label
+                htmlFor="dropzone-file"
+                className="flex flex-col justify-center items-center w-full h-12 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div className="flex flex-col justify-center items-center pt-7 pb-6">
+                  <i className="fal fa-cloud-arrow-up dark:text-gray-400"></i>
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Click to upload</span>
+                  </p>
+                </div>
+                <input
+                  accept="image/png, image/gif, image/jpeg, image/jpg"
+                  // {...register("user_photo", {
+                  //   required: {
+                  //     value: true,
+                  //     message: "Photo is required",
+                  //   },
+                  // })}
+                  onChange={(e) => {
+                    uploadImage(e.target.files[0], setImage);
+                  }}
+                  id="dropzone-file"
+                  type="file"
+                  className="hidden"
+                />
+              </label>
+            </div>
+            {/* {errors.user_photo?.type === "required" && (
+              <span className="text-sm text-red-500">
+                {errors.user_photo.message}
+              </span>
+            )} */}
+            {/* <input
+              type="file"
+              name="photo"
+              id="review-photo"
+              // className="hidden"
+              
+            /> */}
+            <div className="mt-8">
+              {loading || updating ? (
+                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 loading btn no-animation h-2"></button>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                >
+                  Sign Up
+                </button>
+              )}
+            </div>
+          </form>
+          <div className="flex items-center justify-between mt-4">
+            <span className="w-1/5 border-b dark:border-gray-600 md:w-0.5/4"></span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              Have an account?
+            </span>
+            <Link
+              to="/SignIn"
+              className="text-xs text-gray-500 dark:text-gray-400 hover:underline"
+            >
+              sign In
+            </Link>
+            <span className="w-1/5 border-b dark:border-gray-600 md:w-0.5/4"></span>
+          </div>
+          {SignUpError}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SignUp;
