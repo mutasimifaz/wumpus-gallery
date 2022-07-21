@@ -10,7 +10,7 @@ const MyAnimations = () => {
   const [wumpus, setWumpus] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/wumpus?u_email=${email}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/wumpus?u_email=${email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -7,7 +7,7 @@ const Wumpus = () => {
 
   const { id } = useParams();
   useEffect(() => {
-    fetch(`http://localhost:5000/wumpus/${id}`)
+    fetch(`https://wumpusgallery.herokuapp.com/wumpus/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setWumpus(data);

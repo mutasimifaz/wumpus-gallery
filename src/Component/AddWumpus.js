@@ -55,7 +55,7 @@ const AddWumpus = () => {
     };
 
     if (newWumpus) {
-      fetch(`http://localhost:5000/wumpuses`, {
+      fetch(`https://wumpusgallery.herokuapp.com/wumpuses`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

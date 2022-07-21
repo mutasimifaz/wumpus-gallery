@@ -8,7 +8,7 @@ const Wumpuses = () => {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/wumpuses`)
+    fetch(`https://wumpusgallery.herokuapp.com/wumpuses`)
       .then((res) => res.json())
       .then((data) => {
         setWumpuses(data);

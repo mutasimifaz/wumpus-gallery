@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const AllAnimations = ({ wumpus, index, refetch }) => {
   const { name, u_name, _id } = wumpus;
   const handleDelete = (_id) => {
-    fetch(`http://localhost:5000/wumpus/${_id}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/wumpus/${_id}`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

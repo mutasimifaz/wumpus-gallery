@@ -8,7 +8,7 @@ const ManageAnimation = () => {
     isLoading,
     refetch,
   } = useQuery(["wumpus"], () =>
-    fetch("http://localhost:5000/wumpuses", {
+    fetch("https://wumpusgallery.herokuapp.com/wumpuses", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

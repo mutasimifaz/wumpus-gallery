@@ -21,7 +21,7 @@ const Profile = () => {
   const { uploadImage } = UploadImage();
   const [token] = useToken(user);
   useEffect(() => {
-    fetch(`http://localhost:5000/profile/${user?.email}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -63,7 +63,7 @@ const Profile = () => {
     });
     reset();
     setImage("");
-    fetch(`http://localhost:5000/user/${user?.email}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/user/${user?.email}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -78,7 +78,7 @@ const Profile = () => {
       })
       .finally(() => {
         // navigate("/");
-        fetch(`http://localhost:5000/profile/${user?.email}`, {
+        fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
           method: "GET",
           headers: {
             authorization: `Bearer ${localStorage.getItem("accessToken")}`,

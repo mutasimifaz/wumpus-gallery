@@ -9,7 +9,7 @@ const UploaderProfile = () => {
   const [wloading, setwLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/profile/${email}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/profile/${email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -22,7 +22,7 @@ const UploaderProfile = () => {
       });
   }, [email]);
   useEffect(() => {
-    fetch(`http://localhost:5000/wumpus?u_email=${email}`, {
+    fetch(`https://wumpusgallery.herokuapp.com/wumpus?u_email=${email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
