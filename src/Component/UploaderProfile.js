@@ -75,10 +75,12 @@ const UploaderProfile = () => {
       >
         <div className="flex justify-center items-center ">
           <div className="border border-red-500 rounded-full">
-            <img
-              src={user?.photo}
+            <div
+              style={{
+                backgroundImage: `url(${user?.photo})`,
+                backgroundSize: "cover",
+              }}
               className="w-36 h-36 rounded-full border border-indigo-500 p-0.5 select-none"
-              alt=""
             />
           </div>
         </div>
@@ -90,18 +92,20 @@ const UploaderProfile = () => {
         </h1>
       </div>
       {wumpus.length === 0 && (
-        <h1 className="text-center font-semibold text-xl">
+        <h1 className="text-center font-semibold text-xl dark:bg-gray-700 dark:text-white">
           Looks like user don't have any animation
+        </h1>
+      )}
+      {wumpus.length > 0 && (
+        <h1 className="text-center font-semibold text-2xl pt-2 dark:bg-gray-700 dark:text-white">
+          Animation from {user?.user_name}
         </h1>
       )}
       <div className="flex items-center justify-center lg:px-10 dark:bg-gray-700 dark:text-white pt-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:px-8 px-5 gap-4 justify-center items-center">
           {wumpus.map((d) => (
             <div key={d?._id}>
-              <div
-                style={{ height: "490px" }}
-                className="shadow-lg p-4 rounded-lg"
-              >
+              <div style={{ height: "490px" }} className="">
                 <div className="flex justify-center items-center">
                   <lottie-player
                     src={d?.lottie}
