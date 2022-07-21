@@ -69,7 +69,7 @@ const UploaderProfile = () => {
             user?.cover ||
             "https://i.ibb.co/whb4CF7/istockphoto-1226478932-170667a.jpg"
           })`,
-          backgroundSize: "cover",
+          // backgroundSize: "cover",
         }}
         className="shadow-lg p-3"
       >
