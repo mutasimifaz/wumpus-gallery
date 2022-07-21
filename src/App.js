@@ -100,9 +100,11 @@ const App = () => {
           <Route
             path="manage"
             element={
-              <RequireAdmin>
-                <ManageAnimation />
-              </RequireAdmin>
+              <QueryClientProvider client={queryClient}>
+                <RequireAdmin>
+                  <ManageAnimation />
+                </RequireAdmin>
+              </QueryClientProvider>
             }
           ></Route>
           <Route path="own" element={<MyAnimations />}></Route>

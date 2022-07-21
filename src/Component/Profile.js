@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import auth from "../firebase.init";
 import UploadImage from "../Hooks/UploadImage";
 import useToken from "./../Hooks/useToken";
+import Axios from "axios";
 
 const Profile = () => {
   const [user] = useAuthState(auth);
@@ -13,12 +14,14 @@ const Profile = () => {
 
   const [updateProfile, updating] = useUpdateProfile(auth);
   const [image, setImage] = useState(null);
+  const [bg, setBg] = useState("");
+  console.log(bg);
   const [uploading, SetUploading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const { uploadImage } = UploadImage();
   const [token] = useToken(user);
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
+    fetch(`http://localhost:5000/profile/${user?.email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -30,12 +33,28 @@ const Profile = () => {
         setLoading(false);
       });
   }, [user?.email]);
+  const uploadBackground = (files) => {
+    const formData = new FormData();
+    formData.append("file", files);
+    formData.append("upload_preset", "eciehwmy");
+    Axios.post(
+      "https://api.cloudinary.com/v1_1/ifazinary/image/upload",
+      formData
+    ).then((res) => {
+      setBg(res?.data?.url);
+    });
+  };
   const onSubmit = async (data) => {
     const currentUser = {
       user_name: data.name || user?.displayName,
       photo: image || user?.photoURL,
+      cover:
+        bg ||
+        userData?.cover ||
+        "https://i.ibb.co/r7LM1xX/photo-1478428036186-d435e23988ea.jpg",
       url: data.url || userData?.url,
       job: data.job || userData?.job,
+
       description: data.description || userData?.description,
     };
     await updateProfile({
@@ -44,7 +63,7 @@ const Profile = () => {
     });
     reset();
     setImage("");
-    fetch(`https://wumpusgallery.herokuapp.com/user/${user?.email}`, {
+    fetch(`http://localhost:5000/user/${user?.email}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -59,7 +78,7 @@ const Profile = () => {
       })
       .finally(() => {
         // navigate("/");
-        fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
+        fetch(`http://localhost:5000/profile/${user?.email}`, {
           method: "GET",
           headers: {
             authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -69,11 +88,17 @@ const Profile = () => {
           .then((data) => {
             setUserData(data);
             setLoading(false);
+            if (data) {
+              toast.success(`Profile updated`, {
+                toastId: 1,
+              });
+            } else if (data.modifiedCount === 0) {
+              toast.error(`Profile not updated`, {
+                toastId: 2,
+              });
+            }
           });
       });
-    toast.success(`Profile updated`, {
-      toastId: 1,
-    });
   };
   if (loading) {
     return (
@@ -143,12 +168,20 @@ const Profile = () => {
             <div className="grid lg:grid-cols-2">
               <div className="md:items-center md:justify-center md:flex">
                 <div className="mt-8 mr-2">
-                  <div className=" items-center justify-center flex">
-                    <img
-                      className="mb-3 h-60 w-60"
-                      src={user?.photoURL}
-                      alt={user?.displayName}
-                    ></img>
+                  <div
+                    style={{
+                      backgroundImage: `url(${userData?.cover})`,
+                      backgroundSize: "cover",
+                    }}
+                    className="h-60 w-60 items-center justify-center flex"
+                  >
+                    <div
+                      className="mb-3 rounded-full h-48 w-48 mt-5 select-none mx-auto border-2"
+                      style={{
+                        backgroundImage: `url(${user?.photoURL})`,
+                        backgroundSize: "cover",
+                      }}
+                    ></div>
                   </div>
                   <h1 className="mb-3 text-md">Name: {user?.displayName}</h1>
                   <h1 className="mb-3 text-md">
@@ -268,6 +301,19 @@ const Profile = () => {
                       </div>
                     )}
                     {uploading && image !== "" && <h1>Uploading</h1>}
+                    <label className="block">
+                      <span className="sr-only">Choose .gif File</span>
+                      <input
+                        {...register("cover")}
+                        id="dropzone-file"
+                        onChange={(e) => {
+                          uploadBackground(e.target.files[0]);
+                        }}
+                        type="file"
+                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mb-2"
+                      />
+                    </label>
+
                     <button
                       type="submit"
                       style={{ width: "300px" }}

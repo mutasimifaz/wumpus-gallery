@@ -20,7 +20,7 @@ const useToken = (user) => {
     };
 
     if (email) {
-      fetch(`https://wumpusgallery.herokuapp.com/user/${email}`, {
+      fetch(`http://localhost:5000/user/${email}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",

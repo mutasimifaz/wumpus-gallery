@@ -9,7 +9,7 @@ const UploaderProfile = () => {
   const [wloading, setwLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/profile/${email}`, {
+    fetch(`http://localhost:5000/profile/${email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -22,7 +22,7 @@ const UploaderProfile = () => {
       });
   }, [email]);
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpus?u_email=${email}`, {
+    fetch(`http://localhost:5000/wumpus?u_email=${email}`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -65,7 +65,10 @@ const UploaderProfile = () => {
     <div>
       <div
         style={{
-          backgroundImage: `url('https://i.ibb.co/r7LM1xX/photo-1478428036186-d435e23988ea.jpg')`,
+          backgroundImage: `url(${
+            user?.cover ||
+            "https://i.ibb.co/whb4CF7/istockphoto-1226478932-170667a.jpg"
+          })`,
           backgroundSize: "cover",
         }}
         className="shadow-lg p-3"
@@ -86,6 +89,11 @@ const UploaderProfile = () => {
           {user?.description}
         </h1>
       </div>
+      {wumpus.length === 0 && (
+        <h1 className="text-center font-semibold text-xl">
+          Looks like user don't have any animation
+        </h1>
+      )}
       <div className="flex items-center justify-center lg:px-10 dark:bg-gray-700 dark:text-white pt-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:px-8 px-5 gap-4 justify-center items-center">
           {wumpus.map((d) => (

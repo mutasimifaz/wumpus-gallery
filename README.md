@@ -1,4 +1,4 @@
-# Tailwind Initialized in React
+# How to run
 
 Step 1
 
