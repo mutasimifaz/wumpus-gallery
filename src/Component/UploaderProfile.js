@@ -84,10 +84,10 @@ const UploaderProfile = () => {
             />
           </div>
         </div>
-        <h1 className="text-3xl font-semibold text-center text-yellow-300 drop-shadow-xl select-none">
+        <h1 className="text-3xl font-semibold text-center text-black drop-shadow-xl select-none">
           {user?.user_name}
         </h1>
-        <h1 className="text-xl text-center text-orange-300 select-none">
+        <h1 className="text-xl text-center text-black select-none">
           {user?.description}
         </h1>
         <div className="flex justify-center items-center">
