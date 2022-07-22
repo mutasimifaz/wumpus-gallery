@@ -42,7 +42,6 @@ const AllUser = () => {
       </div>
     );
   }
-  console.log(user);
   return (
     <div className="dark:bg-gray-700 dark:text-white">
       <h2 className="text-2xl font-semibold text-center mb-2">
