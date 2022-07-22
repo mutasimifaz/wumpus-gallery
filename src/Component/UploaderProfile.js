@@ -90,7 +90,13 @@ const UploaderProfile = () => {
         <h1 className="text-xl text-center text-orange-300 select-none">
           {user?.description}
         </h1>
+        <div className="flex justify-center items-center">
+          <button className="text-white px-3 py-1 rounded-md bg-blue-300">
+            Follow <i className="fa-thin fa-user-check"></i>
+          </button>
+        </div>
       </div>
+
       {wumpus.length === 0 && (
         <h1 className="text-center font-semibold text-xl dark:bg-gray-700 dark:text-white">
           Looks like user don't have any animation
@@ -126,12 +132,16 @@ const UploaderProfile = () => {
                 </div>
                 <div className="flex items-center justify-center gap-3">
                   <Link to={`/wumpus/${d?._id}`}>
-                    <button className="btn btn-accent text-white text-sm">
-                      <span className="mr-2">Download</span>
-                      <i className="fal fa-arrow-down-to-bracket"></i>
+                    <button className="px-3 py-3 rounded-sm  bg-cyan-500">
+                      <span className="mr-2 select-none text-white">
+                        Download
+                      </span>
+                      <i className="fal fa-arrow-down-to-bracket  text-white"></i>
                     </button>
                   </Link>
-                  {/* <a href={data}>Data</a> */}
+                  <button className="rounded-full border-cyan-500 border">
+                    <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
+                  </button>
                 </div>
               </div>
             </div>

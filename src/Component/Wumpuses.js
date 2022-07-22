@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
 const Wumpuses = () => {
   const [wumpuses, setWumpuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`https://wumpusgallery.herokuapp.com/wumpuses`)
@@ -89,12 +90,25 @@ const Wumpuses = () => {
                 </div>
                 <div className="flex items-center justify-center gap-3">
                   <Link to={`/wumpus/${d?._id}`}>
-                    <button className="btn btn-accent text-white text-sm">
-                      <span className="mr-2">Download</span>
-                      <i className="fal fa-arrow-down-to-bracket"></i>
+                    <button className="px-3 py-3 rounded-sm  bg-cyan-500">
+                      <span className="mr-2 select-none text-white">
+                        Download
+                      </span>
+                      <i className="fal fa-arrow-down-to-bracket  text-white"></i>
                     </button>
                   </Link>
-                  {/* <a href={data}>Data</a> */}
+                  {user ? (
+                    <button className="rounded-full border-cyan-500 border">
+                      <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigate("/signIn")}
+                      className="rounded-full border-cyan-500 border"
+                    >
+                      <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

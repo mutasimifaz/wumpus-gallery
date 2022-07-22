@@ -15,7 +15,6 @@ const Profile = () => {
   const [updateProfile, updating] = useUpdateProfile(auth);
   const [image, setImage] = useState(null);
   const [bg, setBg] = useState("");
-  console.log(bg);
   const [uploading, SetUploading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const { uploadImage } = UploadImage();
