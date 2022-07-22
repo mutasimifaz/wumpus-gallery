@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const UserRow = ({ user, refetch }) => {
+const UserRow = ({ user, refetch, index }) => {
   const { email, role } = user;
   const makeAdmin = () => {
     fetch(`https://wumpusgallery.herokuapp.com/user/admin/${email}`, {
@@ -27,7 +27,7 @@ const UserRow = ({ user, refetch }) => {
   };
   return (
     <tr className="dark:bg-gray-700 dark:text-white">
-      {/* <th className="dark:bg-gray-700 dark:text-white">{index + 1}</th> */}
+      <th className="dark:bg-gray-700 dark:text-white">{index + 1}</th>
       <td className="dark:bg-gray-700 dark:text-white">{user?.user_name}</td>
       <td className="dark:bg-gray-700 dark:text-white">{user?.email}</td>
       <td className="dark:bg-gray-700 dark:text-white">
@@ -37,9 +37,9 @@ const UserRow = ({ user, refetch }) => {
       </td>
       <td className="dark:bg-gray-700 dark:text-white">
         <div className="flex center-left items-center gap-2">
-          <button className="btn btn-circle text-white  bg-red-500">
+          {/* <button className="btn btn-circle text-white  bg-red-500">
             <i className="fal fa-trash"></i>
-          </button>
+          </button> */}
 
           {role !== "admin" ? (
             <button
