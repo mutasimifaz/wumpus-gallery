@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
+// import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useParams } from "react-router-dom";
+// import auth from "../firebase.init";
 
 const Wumpus = () => {
   const [wumpus, setWumpus] = useState();
   const [loading, setLoading] = useState(true);
-
+  // const [user] = useAuthState(auth);
   const { id } = useParams();
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpus/${id}`)
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/wumpus/${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setWumpus(data);
         setLoading(false);
       });
   }, [id]);
+
   const gif = wumpus?.gif;
   const apng = wumpus?.apng;
   const lottie = wumpus?.lottie;
@@ -98,14 +103,11 @@ const Wumpus = () => {
 "
       >
         <div className="flex justify-center items-center">
-          <lottie-player
-            src={wumpus?.lottie}
-            background="transparent"
-            speed="1"
+          <img
+            src={wumpus?.gif}
             style={{ width: "300px", height: "300px" }}
-            loop
-            autoplay
-          ></lottie-player>
+            alt=""
+          />
         </div>
         <div>
           <h1 className="text-5xl font-bold">Name: {wumpus?.name}</h1>

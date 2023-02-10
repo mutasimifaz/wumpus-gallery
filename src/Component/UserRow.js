@@ -5,12 +5,15 @@ import { toast } from "react-toastify";
 const UserRow = ({ user, refetch, index }) => {
   const { email, role } = user;
   const makeAdmin = () => {
-    fetch(`https://wumpusgallery.herokuapp.com/user/admin/${email}`, {
-      method: "PUT",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/user/admin/${email}`,
+      {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => {
         if (res.status === 403) {
           toast.error("You are not authorized to make this user an admin");

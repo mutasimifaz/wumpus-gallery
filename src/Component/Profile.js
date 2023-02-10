@@ -20,12 +20,15 @@ const Profile = () => {
   const { uploadImage } = UploadImage();
   const [token] = useToken(user);
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/profile/${user?.email}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
@@ -62,13 +65,16 @@ const Profile = () => {
     });
     reset();
     setImage("");
-    fetch(`https://wumpusgallery.herokuapp.com/user/${user?.email}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(currentUser),
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/user/${user?.email}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(currentUser),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         // const accessToken = data.token;
@@ -77,12 +83,15 @@ const Profile = () => {
       })
       .finally(() => {
         // navigate("/");
-        fetch(`https://wumpusgallery.herokuapp.com/profile/${user?.email}`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
+        fetch(
+          `https://wumpus-gallery-server-production.up.railway.app/profile/${user?.email}`,
+          {
+            method: "GET",
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             setUserData(data);

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import auth from "../firebase.init";
+// import { toast } from "react-toastify";
 const Wumpuses = () => {
   const [wumpuses, setWumpuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user] = useAuthState(auth);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpuses`)
+    fetch(`https://wumpus-gallery-server-production.up.railway.app/wumpuses`)
       .then((res) => res.json())
       .then((data) => {
         setWumpuses(data);
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return (
       <div
@@ -47,8 +49,9 @@ const Wumpuses = () => {
         style={{ fontFamily: "Yanone Kaffeesatz, sans-serif" }}
         className="text-4xl font-semibold text-center"
       >
-        30 wumpus animation in 3 format
+        {wumpuses?.length} wumpus animation in 3 format
       </h1>
+
       {!user && (
         <h1 className="text-center">
           Don't know what is wumpus?{" "}
@@ -66,14 +69,11 @@ const Wumpuses = () => {
                 className="shadow-lg p-4 rounded-lg"
               >
                 <div className="flex justify-center items-center">
-                  <lottie-player
-                    src={d?.lottie}
-                    background="transparent"
-                    speed="1"
+                  <img
+                    src={d?.gif}
+                    alt=""
                     style={{ width: "300px", height: "300px" }}
-                    loop
-                    autoplay
-                  ></lottie-player>
+                  />
                 </div>
                 <div className="mb-3">
                   <h1 className="text-center text-2xl font-semibold">
@@ -97,18 +97,14 @@ const Wumpuses = () => {
                       <i className="fal fa-arrow-down-to-bracket  text-white"></i>
                     </button>
                   </Link>
-                  {user ? (
-                    <button className="rounded-full border-cyan-500 border">
-                      <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
-                    </button>
+                  {/* {d?.like?.filter((like) => like.includes(user?.email)) ? (
+                    <button className="fas fa-heart text-red-600 p-3 bg-red-300 rounded-full text-xl"></button>
                   ) : (
                     <button
-                      onClick={() => navigate("/signIn")}
-                      className="rounded-full border-cyan-500 border"
-                    >
-                      <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
-                    </button>
-                  )}
+                      onClick={() => handleLike(user?.email)}
+                      className="fas fa-heart text-gray-500 p-3 bg-gray-300 rounded-full text-xl"
+                    ></button>
+                  )} */}
                 </div>
               </div>
             </div>

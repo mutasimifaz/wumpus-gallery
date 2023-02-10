@@ -5,12 +5,15 @@ import { toast } from "react-toastify";
 const AllAnimations = ({ wumpus, index, refetch }) => {
   const { name, u_name, _id } = wumpus;
   const handleDelete = (_id) => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpus/${_id}`, {
-      method: "DELETE",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/wumpus/${_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.deletedCount > 0) {

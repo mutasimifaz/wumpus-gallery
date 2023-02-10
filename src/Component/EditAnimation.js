@@ -11,7 +11,9 @@ const EditWumpus = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpus/${id}`)
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/wumpus/${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setWumpus(data);
@@ -69,14 +71,17 @@ const EditWumpus = () => {
     };
 
     if (newWumpus) {
-      fetch(`https://wumpusgallery.herokuapp.com/wumpuses/${id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: JSON.stringify(newWumpus),
-      })
+      fetch(
+        `https://wumpus-gallery-server-production.up.railway.app/wumpuses/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(newWumpus),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {});
     }

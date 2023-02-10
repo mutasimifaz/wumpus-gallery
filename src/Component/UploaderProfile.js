@@ -9,12 +9,15 @@ const UploaderProfile = () => {
   const [wloading, setwLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/profile/${email}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/profile/${email}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
@@ -22,12 +25,15 @@ const UploaderProfile = () => {
       });
   }, [email]);
   useEffect(() => {
-    fetch(`https://wumpusgallery.herokuapp.com/wumpus?u_email=${email}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    fetch(
+      `https://wumpus-gallery-server-production.up.railway.app/wumpus?u_email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setWumpus(data);
