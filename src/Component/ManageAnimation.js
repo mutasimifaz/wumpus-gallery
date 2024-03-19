@@ -8,7 +8,7 @@ const ManageAnimation = () => {
     isLoading,
     refetch,
   } = useQuery(["wumpus"], () =>
-    fetch("https://wumpus-gallery-server-production.up.railway.app/wumpuses", {
+    fetch("https://wumpus-gallery-server.onrender.com/wumpuses", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,

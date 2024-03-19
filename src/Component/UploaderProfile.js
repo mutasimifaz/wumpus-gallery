@@ -9,15 +9,12 @@ const UploaderProfile = () => {
   const [wloading, setwLoading] = useState(true);
 
   useEffect(() => {
-    fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/profile/${email}`,
-      {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    )
+    fetch(`https://wumpus-gallery-server.onrender.com/profile/${email}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
@@ -26,7 +23,7 @@ const UploaderProfile = () => {
   }, [email]);
   useEffect(() => {
     fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/wumpus?u_email=${email}`,
+      `https://wumpus-gallery-server.onrender.com/wumpus?u_email=${email}`,
       {
         method: "GET",
         headers: {
@@ -96,11 +93,11 @@ const UploaderProfile = () => {
         <h1 className="text-xl text-center text-black select-none">
           {user?.description}
         </h1>
-        <div className="flex justify-center items-center">
+        {/* <div className="flex justify-center items-center">
           <button className="text-white px-3 py-1 rounded-md bg-blue-300">
             Follow <i className="fa-thin fa-user-check"></i>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {wumpus.length === 0 && (
@@ -145,9 +142,9 @@ const UploaderProfile = () => {
                       <i className="fal fa-arrow-down-to-bracket  text-white"></i>
                     </button>
                   </Link>
-                  <button className="rounded-full border-cyan-500 border">
+                  {/* <button className="rounded-full border-cyan-500 border">
                     <i className="fas text-cyan-500 fa-thumbs-up p-3"></i>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

@@ -20,15 +20,12 @@ const Profile = () => {
   const { uploadImage } = UploadImage();
   const [token] = useToken(user);
   useEffect(() => {
-    fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/profile/${user?.email}`,
-      {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    )
+    fetch(`https://wumpus-gallery-server.onrender.com/profile/${user?.email}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
@@ -65,16 +62,13 @@ const Profile = () => {
     });
     reset();
     setImage("");
-    fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/user/${user?.email}`,
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(currentUser),
-      }
-    )
+    fetch(`https://wumpus-gallery-server.onrender.com/user/${user?.email}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(currentUser),
+    })
       .then((res) => res.json())
       .then((data) => {
         // const accessToken = data.token;
@@ -84,7 +78,7 @@ const Profile = () => {
       .finally(() => {
         // navigate("/");
         fetch(
-          `https://wumpus-gallery-server-production.up.railway.app/profile/${user?.email}`,
+          `https://wumpus-gallery-server.onrender.com/profile/${user?.email}`,
           {
             method: "GET",
             headers: {
@@ -176,21 +170,21 @@ const Profile = () => {
             <div className="grid lg:grid-cols-2">
               <div className="md:items-center md:justify-center md:flex">
                 <div className="mt-8 mr-2">
-                  <div
+                  {/* <div
                     style={{
                       backgroundImage: `url(${userData?.cover})`,
                       backgroundSize: "cover",
                     }}
                     className="h-60 w-60 items-center justify-center flex"
-                  >
-                    <div
-                      className="mb-3 rounded-full h-48 w-48 mt-5 select-none mx-auto border-2"
-                      style={{
-                        backgroundImage: `url(${user?.photoURL})`,
-                        backgroundSize: "cover",
-                      }}
-                    ></div>
-                  </div>
+                  > */}
+                  <div
+                    className="mb-3 rounded-full h-48 w-48 mt-5 select-none mx-auto border-2"
+                    style={{
+                      backgroundImage: `url(${user?.photoURL})`,
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                  {/* </div> */}
                   <h1 className="mb-3 text-md">Name: {user?.displayName}</h1>
                   <h1 className="mb-3 text-md">
                     Email:{" "}
@@ -203,9 +197,9 @@ const Profile = () => {
                     Description:{" "}
                     {userData?.description ? userData?.description : "N/A"}
                   </h1>
-                  <h1 className="mb-3 text-md">
+                  {/* <h1 className="mb-3 text-md">
                     Custom Url: {userData?.url ? userData?.url : "N/A"}
-                  </h1>
+                  </h1> */}
                   <h1 className="mb-3 text-md">
                     Job: {userData?.job ? userData?.job : "N/A"}
                   </h1>
@@ -271,7 +265,7 @@ const Profile = () => {
                         placeholder="Job"
                       />
                     </div>
-
+                    {/* <h1>Update profile photo</h1> */}
                     <div className="flex justify-center items-center w-full mt-4 pb-4">
                       <label
                         htmlFor="dropzone-file"
@@ -299,6 +293,7 @@ const Profile = () => {
                         />
                       </label>
                     </div>
+                    {/* <h1>Update cover photo</h1>
                     {uploading && image !== "" && (
                       <div className="flex items-center justify-center pb-2">
                         <img className="w-20 h-20" src={image} alt="" />
@@ -310,7 +305,7 @@ const Profile = () => {
                     )}
                     {uploading && image !== "" && <h1>Uploading</h1>}
                     <label className="block">
-                      <span className="sr-only">Choose .gif File</span>
+                      <span className="sr-only">Choose File</span>
                       <input
                         {...register("cover")}
                         id="dropzone-file"
@@ -320,7 +315,7 @@ const Profile = () => {
                         type="file"
                         className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mb-2"
                       />
-                    </label>
+                    </label> */}
 
                     <button
                       type="submit"

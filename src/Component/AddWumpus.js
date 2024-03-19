@@ -55,17 +55,14 @@ const AddWumpus = () => {
     };
 
     if (newWumpus) {
-      fetch(
-        `https://wumpus-gallery-server-production.up.railway.app/wumpuses`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-          body: JSON.stringify(newWumpus),
-        }
-      )
+      fetch(`https://wumpus-gallery-server.onrender.com/wumpuses`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(newWumpus),
+      })
         .then((res) => res.json())
         .then((data) => {});
     }

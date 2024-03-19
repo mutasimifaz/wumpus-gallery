@@ -11,7 +11,7 @@ const MyAnimations = () => {
 
   useEffect(() => {
     fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/wumpus?u_email=${email}`,
+      `https://wumpus-gallery-server.onrender.com/wumpus?u_email=${email}`,
       {
         method: "GET",
         headers: {

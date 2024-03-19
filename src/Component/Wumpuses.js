@@ -10,7 +10,7 @@ const Wumpuses = () => {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://wumpus-gallery-server-production.up.railway.app/wumpuses`)
+    fetch(`https://wumpus-gallery-server.onrender.com/wumpuses`)
       .then((res) => res.json())
       .then((data) => {
         setWumpuses(data);

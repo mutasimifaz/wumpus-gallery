@@ -11,9 +11,7 @@ const EditWumpus = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(
-      `https://wumpus-gallery-server-production.up.railway.app/wumpus/${id}`
-    )
+    fetch(`https://wumpus-gallery-server.onrender.com/wumpus/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setWumpus(data);
@@ -26,7 +24,7 @@ const EditWumpus = () => {
 
   const {
     register,
-    formState: { errors },
+    // formState: {  },
     handleSubmit,
     reset,
   } = useForm();
@@ -71,17 +69,14 @@ const EditWumpus = () => {
     };
 
     if (newWumpus) {
-      fetch(
-        `https://wumpus-gallery-server-production.up.railway.app/wumpuses/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-          body: JSON.stringify(newWumpus),
-        }
-      )
+      fetch(`https://wumpus-gallery-server.onrender.com/wumpuses/${id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(newWumpus),
+      })
         .then((res) => res.json())
         .then((data) => {});
     }
@@ -101,7 +96,6 @@ const EditWumpus = () => {
               className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="text"
             />
-            <div></div>
           </div>
           <div className="mt-4">
             <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">

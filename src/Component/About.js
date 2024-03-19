@@ -53,14 +53,11 @@ const About = () => {
         </p>
       </div>
       <div className="flex justify-center items-center">
-        <lottie-player
-          src="https://distok.top/stickers/749043879713701898/749045492352155769.json"
-          background="transparent"
-          speed="1"
+        <img
+          alt="wumpus"
+          src="http://res.cloudinary.com/ifazinary/image/upload/v1676088204/qqou3wtgaqkf07vnpqci.gif"
           style={{ width: "350px", height: "350px" }}
-          loop
-          autoplay
-        ></lottie-player>
+        ></img>
       </div>
     </div>
   );

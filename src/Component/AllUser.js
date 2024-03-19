@@ -10,7 +10,7 @@ const AllUser = () => {
     isLoading,
     refetch,
   } = useQuery(["user"], () =>
-    fetch("https://wumpus-gallery-server-production.up.railway.app/users", {
+    fetch("https://wumpus-gallery-server.onrender.com/users", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
